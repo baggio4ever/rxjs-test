@@ -11,6 +11,12 @@ import 'rxjs/add/observable/interval';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mapTo';
 
+/*
+  ここのサイトで勉強中
+    https://tech.recruit-mp.co.jp/front-end/post-11475/
+
+*/
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -24,6 +30,7 @@ export class AppComponent implements AfterViewInit {
   numbers;
   intervalStream;
   suscription;
+  mergeFes;
 
   ngAfterViewInit() {
     const button = document.querySelector('.xxy');
@@ -51,7 +58,12 @@ export class AppComponent implements AfterViewInit {
     Observable.merge( abc.mapTo('エービーシー'),xyz.mapTo('エックスワイゼット')).subscribe( val=>{
       console.log(val);
       this.messages.push(val);
-    })
+    });
+
+    // aaa と bbb の中身をきれいに混在させる方法ってあるのかしら。mergeではうまくいかない。concatと同じ結果になっちゃう
+    let aaa = Observable.from([1,1,1,1,1,1,1,1,1,1]);
+    let bbb = Observable.from([2,2,2,2,2,2,2,2,2,2]);
+    this.mergeFes = Observable.merge(aaa,bbb);
   }
 
   onDoon(){
@@ -77,5 +89,11 @@ export class AppComponent implements AfterViewInit {
   onStopInterval(){
     console.warn('STOP!');
     this.suscription.unsubscribe();
+  }
+
+  onMergeFes(){
+    this.mergeFes.subscribe( val => {
+      console.info(val);
+    })
   }
 }
