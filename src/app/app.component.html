@@ -1,7 +1,15 @@
 <h1>
   {{title}}
 </h1>
-<button class="xxy">押してみな</button>
-<button (click)="onDoon()">どーん</button>
+<div>
+  <button class="xxy">押してみな</button>
+</div>
+<div>
+  <button (click)="onDoon()">どーん</button>
+</div>
+<div>
+  <button (click)="onStartInterval()">START!</button>
+  <button (click)="onStopInterval()">STOP!</button>
+</div>
 
 <div *ngFor="let m of messages">{{m}}</div>

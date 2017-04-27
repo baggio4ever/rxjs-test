@@ -6,7 +6,8 @@ import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/concat';
-
+import 'rxjs/add/observable/from';
+import 'rxjs/add/observable/interval';
 
 @Component({
   selector: 'app-root',
@@ -14,11 +15,13 @@ import 'rxjs/add/operator/concat';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements AfterViewInit {
-  title = 'app works!';
+  title = 'RxJS の勉強場';
 
   messages = [];
   n=0;
   numbers;
+  intervalStream;
+  suscription;
 
   ngAfterViewInit() {
     const button = document.querySelector('.xxy');
@@ -35,8 +38,11 @@ export class AppComponent implements AfterViewInit {
           this.messages.push( s );
       });
 
-    const numB = Observable.of( 99,98,99,100 );
-    this.numbers = Observable.of( 5,4,3,2,1 ).delay(2000).concat(numB.delay(1000));
+    const numB = Observable.from( [97,98,99,100,101] );
+    const strS = Observable.from( 'Say,Hello! 日本語だって大丈夫そう！' );
+    this.numbers = Observable.of( 5,4,3,2,1 ).delay(2000).concat(numB.delay(1000)).concat(strS.delay(1000));
+
+    this.intervalStream = Observable.interval(1000);
   }
 
   onDoon(){
@@ -48,6 +54,19 @@ export class AppComponent implements AfterViewInit {
       (x)=>{console.log(x);},
       (error:Error)=>{console.log('Error!');},
       ()=>{console.log('--------- completed! -------');}
-    )
+    );
+  }
+
+  onStartInterval(){
+    console.warn('START!');
+    this.suscription = this.intervalStream.subscribe(
+      (x)=>{console.info(x);},
+      (error:Error)=>{console.info('Error!!');},
+      ()=>{console.info('<<<<< Completed >>>>>');}
+    );
+  }
+  onStopInterval(){
+    console.warn('STOP!');
+    this.suscription.unsubscribe();
   }
 }
