@@ -22,7 +22,12 @@
   <button class="sumsum" (click)="onSumSum()">合計</button>
 </div>
 <div>
-  <button (click)="onTake()"> take実験</button>
+  <button (click)="onTake()">take実験</button>
+</div>
+<div>
+  <button class="cold_btn">COLD</button>
+  <button (click)="onSubscribe()">購読開始</button>
+  <button (click)="onUnsubscribe()">購読解除</button>
 </div>
 
 <div *ngFor="let m of messages">{{m}}</div>

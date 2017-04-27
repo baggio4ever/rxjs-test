@@ -34,8 +34,12 @@ export class AppComponent implements AfterViewInit {
   n=0;
   numbers;
   intervalStream;
-  suscription;
+  subscription;
   mergeFes;
+
+  subCold;
+  subscriptionCold;
+  XX=0;
 
   ngAfterViewInit() {
     const button = document.querySelector('.xxy');
@@ -74,6 +78,10 @@ export class AppComponent implements AfterViewInit {
     let aaa = Observable.from([1,1,1,1,1,1,1,1,1,1]);
     let bbb = Observable.from([2,2,2,2,2,2,2,2,2,2]);
     this.mergeFes = Observable.merge(aaa,bbb);
+
+    this.subCold = Observable.fromEvent( document.querySelector('.cold_btn'),'click')
+        .do( v=>{this.XX++;} )
+        .map( (ev:MouseEvent)=>ev.type+' '+this.XX );
   }
 
   onDoon(){
@@ -90,7 +98,7 @@ export class AppComponent implements AfterViewInit {
 
   onStartInterval(){
     console.warn('START!');
-    this.suscription = this.intervalStream.subscribe(
+    this.subscription = this.intervalStream.subscribe(
       (x)=>{console.info(x);},
       (error:Error)=>{console.info('Error!!');},
       ()=>{console.info('<<<<< Completed >>>>>');}
@@ -98,7 +106,7 @@ export class AppComponent implements AfterViewInit {
   }
   onStopInterval(){
     console.warn('STOP!');
-    this.suscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   onMergeFes(){
@@ -130,5 +138,12 @@ export class AppComponent implements AfterViewInit {
       );
 
     console.log('end onTake()');
+  }
+
+  onSubscribe(){
+    this.subscriptionCold = this.subCold.subscribe(val => this.messages.push('COLD: '+val));
+  }
+  onUnsubscribe(){
+    this.subscriptionCold.unsubscribe();
   }
 }
