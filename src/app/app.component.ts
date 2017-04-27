@@ -10,6 +10,9 @@ import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/interval';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mapTo';
+import 'rxjs/add/operator/scan';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/take';
 
 /*
   ここのサイトで勉強中
@@ -47,7 +50,10 @@ export class AppComponent implements AfterViewInit {
           this.messages.push( s );
       });
 
-    const numB = Observable.from( [97,98,99,100,101] ).map( val=>{return val*10;});
+    const numB = Observable.from( [97,98,99,100,101] )
+                  .do( val=>console.error('do1:'+val) )
+                  .map( val=>{return val*10;})
+                  .do( val=>console.error('do2:'+val) );
     const strS = Observable.from( 'Say,Hello! 日本語だって大丈夫そう！' );
     this.numbers = Observable.of( 5,4,3,2,1 ).delay(2000).concat(numB.delay(1000)).concat(strS.delay(1000));
 
@@ -95,5 +101,27 @@ export class AppComponent implements AfterViewInit {
     this.mergeFes.subscribe( val => {
       console.info(val);
     })
+  }
+
+  onSumSum(){
+    let sum = Observable.from([1,2,3,4,5,6,7,8,9,10]).scan( (acc,cur)=> acc+cur,0 );
+
+    sum.subscribe(
+      (val) => { this.messages.push( '途中までの合計は '+val+' です' ); },
+      (error:Error)=>{this.messages.push('ERROR!');},
+      ()=>{ this.messages.push('==== completed ====');}
+    );
+  }
+
+  onTake(){
+    console.log('begin onTake()');
+
+    Observable.interval(1000).take(5).subscribe(
+      (v)=>{console.log('take '+v);},
+      (error:Error)=>{console.log('ERROR!!');},
+      ()=>{console.log('++++ completed ++++');}
+    );
+
+    console.log('end onTake()');
   }
 }
