@@ -13,6 +13,8 @@ import 'rxjs/add/operator/mapTo';
 import 'rxjs/add/operator/scan';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/skip';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 /*
   ここのサイトで勉強中
@@ -61,10 +63,12 @@ export class AppComponent implements AfterViewInit {
 
     let abc = Observable.fromEvent( document.querySelector('.abc'),'click');
     let xyz = Observable.fromEvent( document.querySelector('.xyz'),'click');
-    Observable.merge( abc.mapTo('エービーシー'),xyz.mapTo('エックスワイゼット')).subscribe( val=>{
-      console.log(val);
-      this.messages.push(val);
-    });
+    Observable.merge( abc.mapTo('エービーシー'),xyz.mapTo('エックスワイゼット'))
+      .distinctUntilChanged()
+      .subscribe( val=>{
+        console.log(val);
+        this.messages.push(val);
+      });
 
     // aaa と bbb の中身をきれいに混在させる方法ってあるのかしら。mergeではうまくいかない。concatと同じ結果になっちゃう
     let aaa = Observable.from([1,1,1,1,1,1,1,1,1,1]);
@@ -116,11 +120,14 @@ export class AppComponent implements AfterViewInit {
   onTake(){
     console.log('begin onTake()');
 
-    Observable.interval(1000).take(5).subscribe(
-      (v)=>{console.log('take '+v);},
-      (error:Error)=>{console.log('ERROR!!');},
-      ()=>{console.log('++++ completed ++++');}
-    );
+    Observable.interval(1000)
+      .skip(3)
+      .take(5)
+      .subscribe(
+        (v)=>{console.log('take '+v);},
+        (error:Error)=>{console.log('ERROR!!');},
+        ()=>{console.log('++++ completed ++++');}
+      );
 
     console.log('end onTake()');
   }
