@@ -29,5 +29,12 @@
   <button (click)="onSubscribe()">購読開始</button>
   <button (click)="onUnsubscribe()">購読解除</button>
 </div>
+<div>
+  <button class="hot_btn">HOT</button>
+  <button (click)="onSubscribeHOT()">購読開始</button>
+  <button (click)="onUnsubscribeHOT()">購読解除</button>
+  <button (click)="onSubscribeHOT2()">購読開始2</button>
+  <button (click)="onUnsubscribeHOT2()">購読解除2</button>
+</div>
 
 <div *ngFor="let m of messages">{{m}}</div>

@@ -15,6 +15,8 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/publish';
+//import 'rxjs/add/observable/connect';
 
 /*
   ここのサイトで勉強中
@@ -40,6 +42,11 @@ export class AppComponent implements AfterViewInit {
   subCold;
   subscriptionCold;
   XX=0;
+
+  subHot;
+  subscriptionHot;
+  subscriptionHot2;
+  YY=0;
 
   ngAfterViewInit() {
     const button = document.querySelector('.xxy');
@@ -80,8 +87,14 @@ export class AppComponent implements AfterViewInit {
     this.mergeFes = Observable.merge(aaa,bbb);
 
     this.subCold = Observable.fromEvent( document.querySelector('.cold_btn'),'click')
-        .do( v=>{this.XX++;} )
+        .do( v=>{this.XX++; console.info('do cold: '+this.XX);} )
         .map( (ev:MouseEvent)=>ev.type+' '+this.XX );
+
+    this.subHot = Observable.fromEvent( document.querySelector('.hot_btn'),'click')
+        .do( v=>{this.YY++; console.info('do hot: '+this.YY);} )
+        .map( (ev:MouseEvent)=>ev.type+' '+this.YY )
+        .publish();
+    this.subHot.connect();
   }
 
   onDoon(){
@@ -141,9 +154,28 @@ export class AppComponent implements AfterViewInit {
   }
 
   onSubscribe(){
+    this.messages.push('COLD: subscribe');
     this.subscriptionCold = this.subCold.subscribe(val => this.messages.push('COLD: '+val));
   }
   onUnsubscribe(){
+    this.messages.push('COLD: unsubscribe');
     this.subscriptionCold.unsubscribe();
+  }
+
+  onSubscribeHOT(){
+    this.messages.push('HOT: subscribe');
+    this.subscriptionHot = this.subHot.subscribe(val => this.messages.push('HOT: '+val));
+  }
+  onUnsubscribeHOT(){
+    this.messages.push('HOT: unsubscribe');
+    this.subscriptionHot.unsubscribe();
+  }
+  onSubscribeHOT2(){
+    this.messages.push('HOT2: subscribe');
+    this.subscriptionHot2 = this.subHot.subscribe(val => this.messages.push('HOT2: '+val));
+  }
+  onUnsubscribeHOT2(){
+    this.messages.push('HOT2: unsubscribe');
+    this.subscriptionHot2.unsubscribe();
   }
 }
