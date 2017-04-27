@@ -8,6 +8,8 @@ import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/concat';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/observable/interval';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mapTo';
 
 @Component({
   selector: 'app-root',
@@ -38,11 +40,18 @@ export class AppComponent implements AfterViewInit {
           this.messages.push( s );
       });
 
-    const numB = Observable.from( [97,98,99,100,101] );
+    const numB = Observable.from( [97,98,99,100,101] ).map( val=>{return val*10;});
     const strS = Observable.from( 'Say,Hello! 日本語だって大丈夫そう！' );
     this.numbers = Observable.of( 5,4,3,2,1 ).delay(2000).concat(numB.delay(1000)).concat(strS.delay(1000));
 
     this.intervalStream = Observable.interval(1000);
+
+    let abc = Observable.fromEvent( document.querySelector('.abc'),'click');
+    let xyz = Observable.fromEvent( document.querySelector('.xyz'),'click');
+    Observable.merge( abc.mapTo('エービーシー'),xyz.mapTo('エックスワイゼット')).subscribe( val=>{
+      console.log(val);
+      this.messages.push(val);
+    })
   }
 
   onDoon(){
