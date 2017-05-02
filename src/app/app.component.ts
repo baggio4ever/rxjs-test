@@ -38,6 +38,8 @@ export class AppComponent implements AfterViewInit {
   messages = [];
   n=0;
   numbers;
+  doonSubscription;
+
   intervalStream;
   subscription;
   mergeFes;
@@ -61,7 +63,7 @@ export class AppComponent implements AfterViewInit {
     let second = Observable
       .fromEvent( button,'dblclick');
     
-    Observable.merge(first,second)
+    Observable.merge(first,second)  // 2つのObservableを合流
       .subscribe( (event:MouseEvent)=>{
           this.n++;
           const s = (event.target as HTMLButtonElement).textContent +' is clicked. '+event.type+' '+this.n;
@@ -69,12 +71,17 @@ export class AppComponent implements AfterViewInit {
           this.messages.push( s );
       });
 
+
     const numB = Observable.from( [97,98,99,100,101] )
                   .do( val=>console.error('do1:'+val) )
-                  .map( val=>{return val*10;})
+                  .map( val=>{return val*10;})  // ここで10倍
                   .do( val=>console.error('do2:'+val) );
-    const strS = Observable.from( 'Say,Hello! 日本語だって大丈夫そう！' );
-    this.numbers = Observable.of( 5,4,3,2,1 ).delay(2000).concat(numB.delay(1000)).concat(strS.delay(1000));
+    const strS = Observable.from( 'Say,Hello! 日本語だって大丈夫そう！' ); // なぜか2回目以降のsubscribeでは、この日本語が流れてこない。不思議
+    this.numbers = Observable.of( 5,4,3,2,1 )
+                  .delay(2000)
+                  .concat(strS.delay(3000))
+                  .concat(numB.delay(1000));
+
 
     this.intervalStream = Observable.interval(1000);
 
@@ -116,12 +123,18 @@ export class AppComponent implements AfterViewInit {
     console.info('どーーん');
     this.messages.push('どーーん');
 
-
-    this.numbers.subscribe(
+    this.doonSubscription = this.numbers.subscribe(
       (x)=>{console.log(x);},
       (error:Error)=>{console.log('Error!');},
-      ()=>{console.log('--------- completed! -------');}
+      ()=>{console.log('----- completed! -----');}
     );
+  }
+
+  onDoonUnsubscribe() {
+    console.info('どーーん解除');
+    this.messages.push('どーーん解除');
+
+    this.doonSubscription.unsubscribe();
   }
 
   onStartInterval(){

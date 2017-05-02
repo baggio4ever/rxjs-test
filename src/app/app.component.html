@@ -1,49 +1,84 @@
-<h1>
-  {{title}}
-</h1>
-<alert type="success">hello</alert>
-<h4>
-  Angular {{angular_version}}
-</h4>
-<div>
-  <button class="xxy">押してみな</button>
-</div>
-<div>
-  <button (click)="onDoon()">どーん</button>
-</div>
-<div>
-  <button (click)="onStartInterval()">START!</button>
-  <button (click)="onStopInterval()">STOP!</button>
-</div>
-<div>
-  <button class="abc">ABC</button>
-  <button class="xyz">XYZ</button>
-</div>
-<div>
-  <button class="mergeFes" (click)="onMergeFes()">mergeまつり</button>
-</div>
-<div>
-  <button class="sumsum" (click)="onSumSum()">合計</button>
-</div>
-<div>
-  <button (click)="onTake()">take実験</button>
-</div>
-<div>
-  <button class="cold_btn">COLD</button>
-  <button (click)="onSubscribe()">購読開始</button>
-  <button (click)="onUnsubscribe()">購読解除</button>
-</div>
-<div>
-  <button class="hot_btn">HOT</button>
-  <button (click)="onSubscribeHOT()">購読開始</button>
-  <button (click)="onUnsubscribeHOT()">購読解除</button>
-  <button (click)="onSubscribeHOT2()">購読開始2</button>
-  <button (click)="onUnsubscribeHOT2()">購読解除2</button>
-</div>
-<div>
-  <button (click)="onSubjectNext()">subject.next()</button>
-  <input [(ngModel)]="msgText">
-  msgText:{{msgText}}
-</div>
+<div class="container">
+  <div class="row">
+    <h1>
+      {{title}}
+    </h1>
+    <h4>
+      Angular {{angular_version}}
+    </h4>
+  </div>
 
-<div *ngFor="let m of messages">{{m}}</div>
+  <div class="row">
+    <alert type="md-local">hello (カスタムカラー)</alert>
+  </div>
+
+  <div class="row">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h4 class="panel-title">clickとdblclickの実験</h4>
+      </div>
+      <div class="panel-body">
+        <button class="xxy btn btn-primary">押してみな</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h4 class="panel-title">delayやmap、concatの実験</h4>
+      </div>
+      <div class="panel-body">
+        <button class="btn" (click)="onDoon()">どーん</button>
+        <button class="btn" (click)="onDoonUnsubscribe()">どーん解除</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <button class="btn btn-primary" (click)="onStartInterval()">START!</button>
+    <button class="btn btn-danger" (click)="onStopInterval()">STOP!</button>
+  </div>
+  <div class="row">
+    <button class="abc btn">ABC</button>
+    <button class="xyz btn">XYZ</button>
+  </div>
+  <div class="row">
+    <button class="mergeFes btn" (click)="onMergeFes()">mergeまつり</button>
+  </div>
+  <div class="row">
+    <button class="sumsum btn" (click)="onSumSum()">合計</button>
+  </div>
+  <div class="row">
+    <button class="btn" (click)="onTake()">take実験</button>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+      <button class="cold_btn btn">COLD</button>
+    </div>
+    <div class="col-sm-3">
+      <button class="btn" (click)="onSubscribe()">購読開始</button>
+    </div>
+    <div class="col-sm-3">
+      <button class="btn" (click)="onUnsubscribe()">購読解除</button>
+    </div>
+  </div>
+  <div class="row">
+    <button class="hot_btn btn">HOT</button>
+    <button class="btn" (click)="onSubscribeHOT()">購読開始</button>
+    <button class="btn" (click)="onUnsubscribeHOT()">購読解除</button>
+    <button class="btn" (click)="onSubscribeHOT2()">購読開始2</button>
+    <button class="btn" (click)="onUnsubscribeHOT2()">購読解除2</button>
+  </div>
+  <div class="row">
+    <button class="btn" (click)="onSubjectNext()">subject.next()</button>
+    <input [(ngModel)]="msgText">
+    msgText:{{msgText}}
+  </div>
+
+  <div class="row">
+    <ol>
+      <li *ngFor="let m of messages">{{m}}</li>
+    </ol>
+  </div>
+</div>
