@@ -1,4 +1,4 @@
-import { Component,AfterViewInit } from '@angular/core';
+import { Component,VERSION,AfterViewInit } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
@@ -31,6 +31,8 @@ import 'rxjs/add/operator/publish';
 })
 export class AppComponent implements AfterViewInit {
   title = 'RxJS の勉強場';
+
+  angular_version = VERSION.full;
 
   messages = [];
   n=0;
