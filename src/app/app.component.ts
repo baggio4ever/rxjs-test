@@ -25,6 +25,10 @@ import 'rxjs/add/operator/publish';
 
 */
 
+class LogItem {
+  constructor(public msg:string,public time:Date){}
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -56,6 +60,11 @@ export class AppComponent implements AfterViewInit {
   subject;
   msgText="";
 
+  addMessage( aMsg:string ):void {
+    let anObj:LogItem = new LogItem(aMsg,new Date());
+    this.messages.push(anObj);
+  }
+
   ngAfterViewInit() {
     const button = document.querySelector('.xxy');
     let first = Observable
@@ -67,8 +76,8 @@ export class AppComponent implements AfterViewInit {
       .subscribe( (event:MouseEvent)=>{
           this.n++;
           const s = (event.target as HTMLButtonElement).textContent +' is clicked. '+event.type+' '+this.n;
-          console.log( s );
-          this.messages.push( s );
+
+          this.addMessage(s);
       });
 
 
@@ -90,8 +99,7 @@ export class AppComponent implements AfterViewInit {
     Observable.merge( abc.mapTo('エービーシー'),xyz.mapTo('エックスワイゼット'))
       .distinctUntilChanged() // 同じ値は無視
       .subscribe( val=>{
-        console.log(val);
-        this.messages.push(val);
+        this.addMessage(val);
       });
 
     // aaa と bbb の中身をきれいに混在させる方法ってあるのかしら。mergeではうまくいかない。concatと同じ結果になっちゃう
@@ -111,50 +119,48 @@ export class AppComponent implements AfterViewInit {
 
 
     const observerA = {
-      next: (x)=>{ console.log('A next:'+x);this.messages.push(x);},
-      error: (err)=>{ console.log('A error:'+err);this.messages.push(err);},
-      complete: ()=>{ console.log('A ------ completed ------');this.messages.push('completed');}
+      next: (x)=>{ this.addMessage('A next: '+x);},
+      error: (err)=>{ this.addMessage('A error: '+err);},
+      complete: ()=>{ this.addMessage('A ---- completed ----');}
     }
     this.subject = new Subject();
     this.subject.subscribe(observerA);
   }
 
   onDoon(){
-    console.info('どーーん');
-    this.messages.push('どーーん');
+    this.addMessage('どーーん');
 
     this.doonSubscription = this.numbers.subscribe(
-      (x)=>{console.log(x);},
-      (error:Error)=>{console.log('Error!');},
-      ()=>{console.log('----- completed! -----');}
+      (x)=>{this.addMessage(x);},
+      (error:Error)=>{this.addMessage('Error!');},
+      ()=>{this.addMessage('----- completed! -----');}
     );
   }
 
   onDoonUnsubscribe() {
-    console.info('どーーん解除');
-    this.messages.push('どーーん解除');
+    this.addMessage('どーーん解除');
 
     this.doonSubscription.unsubscribe();
   }
 
   onStartInterval(){
-    console.warn('START!');
+    this.addMessage('START!');
 
     this.subscription = this.intervalStream.subscribe(
-      (x)=>{console.info(x);},
-      (error:Error)=>{console.info('Error!!');},
-      ()=>{console.info('<<<<< Completed >>>>>');}
+      (x)=>{this.addMessage(x);},
+      (error:Error)=>{this.addMessage('Error!!');},
+      ()=>{this.addMessage('<<<<< Completed >>>>>');}
     );
   }
   onStopInterval(){
-    console.warn('STOP!');
+    this.addMessage('STOP!');
 
     this.subscription.unsubscribe();
   }
 
   onMergeFes(){
     this.mergeFes.subscribe( val => {
-      console.info(val);
+      this.addMessage(val);
     })
   }
 
@@ -162,54 +168,58 @@ export class AppComponent implements AfterViewInit {
     let sum = Observable.from([1,2,3,4,5,6,7,8,9,10]).scan( (acc,cur)=> acc+cur,0 );
 
     sum.subscribe(
-      (val) => { this.messages.push( '途中までの合計は '+val+' です' ); },
-      (error:Error)=>{this.messages.push('ERROR!');},
-      ()=>{ this.messages.push('==== completed ====');}
+      (val) => { this.addMessage( '途中までの合計は '+val+' です' ); },
+      (error:Error)=>{this.addMessage('ERROR!');},
+      ()=>{ this.addMessage('==== completed ====');}
     );
   }
 
   onTake(){
-    console.log('begin onTake()');
+    this.addMessage('begin onTake()');
 
     Observable.interval(1000)
       .skip(3)
       .take(5)
       .subscribe(
-        (v)=>{console.log('take '+v);},
-        (error:Error)=>{console.log('ERROR!!');},
-        ()=>{console.log('++++ completed ++++');}
+        (v)=>{this.addMessage('take '+v);},
+        (error:Error)=>{this.addMessage('ERROR!!');},
+        ()=>{this.addMessage('++++ completed ++++');}
       );
 
-    console.log('end onTake()');
+    this.addMessage('end onTake()');
   }
 
   onSubscribe(){
-    this.messages.push('COLD: subscribe');
-    this.subscriptionCold = this.subCold.subscribe(val => this.messages.push('COLD: '+val));
+    this.addMessage('COLD: subscribe');
+    this.subscriptionCold = this.subCold.subscribe(val => this.addMessage('COLD: '+val));
   }
   onUnsubscribe(){
-    this.messages.push('COLD: unsubscribe');
+    this.addMessage('COLD: unsubscribe');
     this.subscriptionCold.unsubscribe();
   }
 
   onSubscribeHOT(){
-    this.messages.push('HOT: subscribe');
-    this.subscriptionHot = this.subHot.subscribe(val => this.messages.push('HOT: '+val));
+    this.addMessage('HOT: subscribe');
+    this.subscriptionHot = this.subHot.subscribe(val => this.addMessage('HOT: '+val));
   }
   onUnsubscribeHOT(){
-    this.messages.push('HOT: unsubscribe');
+    this.addMessage('HOT: unsubscribe');
     this.subscriptionHot.unsubscribe();
   }
   onSubscribeHOT2(){
-    this.messages.push('HOT2: subscribe');
-    this.subscriptionHot2 = this.subHot.subscribe(val => this.messages.push('HOT2: '+val));
+    this.addMessage('HOT2: subscribe');
+    this.subscriptionHot2 = this.subHot.subscribe(val => this.addMessage('HOT2: '+val));
   }
   onUnsubscribeHOT2(){
-    this.messages.push('HOT2: unsubscribe');
+    this.addMessage('HOT2: unsubscribe');
     this.subscriptionHot2.unsubscribe();
   }
 
   onSubjectNext(){
-    this.subject.next('ドーン: '+this.msgText);
+    this.subject.next(this.msgText);
+  }
+
+  onClearLog(){
+    this.messages = [];
   }
 }

@@ -1,6 +1,11 @@
 <div class="container">
   <div class="row">
-    <h1>{{title}} <small>Angular {{angular_version}}</small></h1>
+    <div class="col-xs-10">
+      <h1>{{title}} <small>Angular {{angular_version}}</small></h1>
+    </div>
+    <div class="col-xs-2">
+      <button class="btn btn-primary" (click)="onClearLog()">ログ消去</button>
+    </div>
   </div>
 
   <div class="row">
@@ -57,28 +62,33 @@
       </div>
     </div>
   </div>
+
   <div class="row">
+    <div class="col-xs-6">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h4 class="panel-title">mergeの実験</h4>
+        </div>
+        <div class="panel-body">
+          <button class="mergeFes btn" (click)="onMergeFes()">mergeまつり</button>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="row">
-    <button class="mergeFes btn" (click)="onMergeFes()">mergeまつり</button>
-  </div>
+
   <div class="row">
     <button class="sumsum btn" (click)="onSumSum()">合計</button>
   </div>
   <div class="row">
     <button class="btn" (click)="onTake()">take実験</button>
   </div>
+
   <div class="row">
-    <div class="col-sm-3">
-      <button class="cold_btn btn">COLD</button>
-    </div>
-    <div class="col-sm-3">
-      <button class="btn" (click)="onSubscribe()">購読開始</button>
-    </div>
-    <div class="col-sm-3">
-      <button class="btn" (click)="onUnsubscribe()">購読解除</button>
-    </div>
+    <button class="cold_btn btn">COLD</button>
+    <button class="btn" (click)="onSubscribe()">購読開始</button>
+    <button class="btn" (click)="onUnsubscribe()">購読解除</button>
   </div>
+
   <div class="row">
     <button class="hot_btn btn">HOT</button>
     <button class="btn" (click)="onSubscribeHOT()">購読開始</button>
@@ -94,7 +104,7 @@
 
   <div class="row">
     <ol>
-      <li *ngFor="let m of messages">{{m}}</li>
+      <li *ngFor="let m of messages">[{{m.time}}] <strong>{{m.msg}}</strong></li>
     </ol>
   </div>
 </div>
