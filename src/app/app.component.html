@@ -39,5 +39,10 @@
   <button (click)="onSubscribeHOT2()">購読開始2</button>
   <button (click)="onUnsubscribeHOT2()">購読解除2</button>
 </div>
+<div>
+  <button (click)="onSubjectNext()">subject.next()</button>
+  <input [(ngModel)]="msgText">
+  msgText:{{msgText}}
+</div>
 
 <div *ngFor="let m of messages">{{m}}</div>

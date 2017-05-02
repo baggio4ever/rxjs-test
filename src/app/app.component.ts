@@ -1,6 +1,7 @@
 import { Component,VERSION,AfterViewInit } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/of';
@@ -50,6 +51,9 @@ export class AppComponent implements AfterViewInit {
   subscriptionHot2;
   YY=0;
 
+  subject;
+  msgText="";
+
   ngAfterViewInit() {
     const button = document.querySelector('.xxy');
     let first = Observable
@@ -97,6 +101,15 @@ export class AppComponent implements AfterViewInit {
         .map( (ev:MouseEvent)=>ev.type+' '+this.YY )
         .publish();
     this.subHot.connect();
+
+
+    const observerA = {
+      next: (x)=>{ console.log('A next:'+x);this.messages.push(x);},
+      error: (err)=>{ console.log('A error:'+err);this.messages.push(err);},
+      complete: ()=>{ console.log('A ------ completed ------');this.messages.push('completed');}
+    }
+    this.subject = new Subject();
+    this.subject.subscribe(observerA);
   }
 
   onDoon(){
@@ -179,5 +192,9 @@ export class AppComponent implements AfterViewInit {
   onUnsubscribeHOT2(){
     this.messages.push('HOT2: unsubscribe');
     this.subscriptionHot2.unsubscribe();
+  }
+
+  onSubjectNext(){
+    this.subject.next('ドーン: '+this.msgText);
   }
 }
