@@ -88,7 +88,7 @@ export class AppComponent implements AfterViewInit {
     let abc = Observable.fromEvent( document.querySelector('.abc'),'click');
     let xyz = Observable.fromEvent( document.querySelector('.xyz'),'click');
     Observable.merge( abc.mapTo('エービーシー'),xyz.mapTo('エックスワイゼット'))
-      .distinctUntilChanged()
+      .distinctUntilChanged() // 同じ値は無視
       .subscribe( val=>{
         console.log(val);
         this.messages.push(val);
@@ -139,6 +139,7 @@ export class AppComponent implements AfterViewInit {
 
   onStartInterval(){
     console.warn('START!');
+
     this.subscription = this.intervalStream.subscribe(
       (x)=>{console.info(x);},
       (error:Error)=>{console.info('Error!!');},
@@ -147,6 +148,7 @@ export class AppComponent implements AfterViewInit {
   }
   onStopInterval(){
     console.warn('STOP!');
+
     this.subscription.unsubscribe();
   }
 
