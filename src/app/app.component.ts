@@ -169,8 +169,8 @@ export class AppComponent implements AfterViewInit {
 
     sum.subscribe(
       (val) => { this.addMessage( '途中までの合計は '+val+' です' ); },
-      (error:Error)=>{this.addMessage('ERROR!');},
-      ()=>{ this.addMessage('==== completed ====');}
+      (error:Error)=>{ this.addMessage('ERROR!'); },
+      ()=>{ this.addMessage('==== completed ===='); }
     );
   }
 
