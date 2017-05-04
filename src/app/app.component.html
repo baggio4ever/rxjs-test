@@ -58,8 +58,8 @@
               <h4 class="panel-title">mapTo,distinctUntilChangedの実験</h4>
             </div>
             <div class="panel-body">
-              <button class="abc btn">ABC</button>
-              <button class="xyz btn">XYZ</button>
+              <button class="abc btn-sm btn">ABC</button>
+              <button class="xyz btn-sm btn">XYZ</button>
             </div>
           </div>
         </div>
@@ -70,7 +70,7 @@
               <h4 class="panel-title">merge実験</h4>
             </div>
             <div class="panel-body">
-              <button class="mergeFes btn" (click)="onMergeFes()">mergeまつり</button>
+              <button class="mergeFes btn-sm btn" (click)="onMergeFes()">mergeまつり</button>
             </div>
           </div>
         </div>
@@ -109,14 +109,14 @@
             </div>
             <div class="panel-body">
               <button class="cold_btn btn btn-primary">COLD</button>
-              <button class="btn" (click)="onSubscribe()">購読開始</button>
-              <button class="btn" (click)="onUnsubscribe()">購読解除</button>
+              <button class="btn btn-sm" (click)="onSubscribe()">購読開始</button>
+              <button class="btn btn-sm" (click)="onUnsubscribe()">購読解除</button>
 
               <button class="hot_btn btn btn-danger">HOT</button>
-              <button class="btn" (click)="onSubscribeHOT()">購読開始</button>
-              <button class="btn" (click)="onUnsubscribeHOT()">購読解除</button>
-              <button class="btn" (click)="onSubscribeHOT2()">購読開始2</button>
-              <button class="btn" (click)="onUnsubscribeHOT2()">購読解除2</button>
+              <button class="btn btn-sm" (click)="onSubscribeHOT()">購読開始</button>
+              <button class="btn btn-sm" (click)="onUnsubscribeHOT()">購読解除</button>
+              <button class="btn btn-sm" (click)="onSubscribeHOT2()">購読開始2</button>
+              <button class="btn btn-sm" (click)="onUnsubscribeHOT2()">購読解除2</button>
             </div>
           </div>
         </div>
@@ -137,8 +137,8 @@
         </div>
       </div>
     </div>
-    <div class="col-xs-4">
 
+    <div class="col-xs-4">
       <div class="row">
         <ol>
           <li *ngFor="let m of messages">[{{m.time}}] <strong>{{m.msg}}</strong></li>
