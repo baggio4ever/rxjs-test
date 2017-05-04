@@ -3,4 +3,13 @@
     border-color: #00695C;
     color: #fff;
   }
-  
+
+.ms-dos {
+  border: 1px solid #aaa;
+  background-color: #444;
+  color: #ccc;
+  padding: 10px;
+  margin-top: 10px;
+  height: 480px;
+  overflow: auto;
+}
