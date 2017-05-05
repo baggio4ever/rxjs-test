@@ -10,7 +10,7 @@
       </div>
 
   <div class="row">
-    <div class="col-xs-8">
+    <div class="col-xs-7">
       <div class="row">
         <div class="col-xs-4">
           <div class="panel panel-info">
@@ -135,17 +135,15 @@
       </div>
     </div>
 
-    <div class="col-xs-4">
+    <div class="col-xs-5">
       <div class="row">
-        <div class="col-xs-2">
-          <button class="btn btn-primary" (click)="onClearLog()">ログ消去</button>
+        <div class="ms-dos-header">
+            <button class="btn btn-primary" (click)="onClearLog()">ログ消去</button>
         </div>
       </div>
       <div class="row">
         <div class="ms-dos">
-          <ol>
-            <li *ngFor="let m of messages">[{{m.time}}] <strong>{{m.msg}}</strong></li>
-          </ol>
+          <div *ngFor="let m of messages;let ind=index;">{{getPaddingText(ind+1,2)}}  <span class="dt">{{getMyDateString(m.time)}}</span>   <strong>{{m.msg}}</strong></div>
         </div>
       </div>
     </div>

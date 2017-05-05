@@ -19,6 +19,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/publish';
 //import 'rxjs/add/observable/connect';
 
+
 /*
   ここのサイトで勉強中
     https://tech.recruit-mp.co.jp/front-end/post-11475/
@@ -221,5 +222,21 @@ export class AppComponent implements AfterViewInit {
 
   onClearLog(){
     this.messages = [];
+  }
+
+  getPaddingText(a:string,d:number=3):string{
+    return ('000'+a).slice(-2);
+  }
+
+  getMyDateString( aDate:Date ):string {
+    // YYYY/MM/DD hh:mm:ss.xx
+    let m = ('0'+(aDate.getMonth()+1)).slice(-2);
+    let d = ('0'+(aDate.getDay())).slice(-2);
+    let h = ('0'+(aDate.getHours())).slice(-2);
+    let min = ('0'+(aDate.getMinutes())).slice(-2);
+    let s = ('0'+(aDate.getSeconds())).slice(-2);
+    let ms = ('00'+(aDate.getMilliseconds())).slice(-3);
+
+    return `${aDate.getFullYear()}/${m}/${d} ${h}:${min}:${s}.${ms}`;
   }
 }
